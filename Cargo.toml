@@ -1,0 +1,34 @@
+[package]
+name = "any_terminal_size"
+version = "0.1.17"
+authors = [
+    "Jesses Gott <jesses.gott.na+any_terminal_size@gmail.com>"
+]
+description = "Gets the terminal size of your process or [transitive] parent process"
+documentation = "http://eminence.github.io/terminal-size/doc/terminal_size/index.html"
+repository = "https://github.com/jessesna/any-terminal-size"
+keywords = ["terminal", "console", "term", "size", "dimensions"]
+license = "MIT OR Apache-2.0"
+edition = "2018"
+
+[target.'cfg(not(windows))'.dependencies]
+terminal_size = "0.1.17"
+
+[target.'cfg(windows)'.dependencies]
+libc = "0.2"
+scopeguard = "1.1.0"
+terminal_size = "0.1.17"
+widestring = "0.5.1"
+
+[target.'cfg(windows)'.dependencies.winapi]
+version = "0.3"
+features = [
+    "errhandlingapi",
+    "handleapi",
+    "memoryapi",
+    "psapi",
+    "synchapi",
+    "tlhelp32",
+    "winbase",
+    "winnt",
+]
