@@ -5,7 +5,7 @@ authors = [
     "Jesses Gott <jesses.gott.na+any_terminal_size@gmail.com>"
 ]
 description = "Gets the terminal size of your process or [transitive] parent process"
-documentation = "http://eminence.github.io/terminal-size/doc/terminal_size/index.html"
+documentation = "http://jessesna.github.io/any-terminal-size/doc/any_terminal_size/index.html"
 repository = "https://github.com/jessesna/any-terminal-size"
 keywords = ["terminal", "console", "term", "size", "dimensions"]
 license = "MIT OR Apache-2.0"
