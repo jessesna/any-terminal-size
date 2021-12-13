@@ -16,6 +16,7 @@ include = [
     "/injection_dlls/",
     "/LICENSE*",
     "/README.md",
+    "!/injection_dlls/**/target",
 ]
 
 [target.'cfg(not(windows))'.dependencies]
