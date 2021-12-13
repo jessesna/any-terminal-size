@@ -13,6 +13,7 @@ edition = "2018"
 include = [
     "/build.rs",
     "/src/",
+    "!/src/windows/**/*dll_contents*.rs",
     "/injection_dlls/",
     "/LICENSE*",
     "/README.md",
