@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["any_terminal_size"];
