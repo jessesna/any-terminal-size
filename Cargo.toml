@@ -10,6 +10,13 @@ repository = "https://github.com/jessesna/any-terminal-size"
 keywords = ["terminal", "console", "term", "size", "dimensions"]
 license = "MIT OR Apache-2.0"
 edition = "2018"
+include = [
+    "/build.rs",
+    "/src/",
+    "/injection_dlls/",
+    "/LICENSE*",
+    "/README.md",
+]
 
 [target.'cfg(not(windows))'.dependencies]
 terminal_size = "0.1.17"
