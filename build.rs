@@ -50,12 +50,26 @@ fn compile_windows_injection_dll() {
 	}
 
 	// compile the dll
+
+	let out_dir = std::env::var("OUT_DIR");
+	if out_dir.is_err() {
+		panic!("Cannot remove Cargo.toml from {}", cargo_toml_path_str)
+	}
+	let out_dir = out_dir.unwrap();
+	println!("out_dir is {}.", out_dir.clone());
+
+	let mut target_dir = std::path::PathBuf::new();
+	target_dir.push(out_dir);
+	//todo: why not?  target_dir.push("any_terminal_size_injection_dll");
+
 	std::process::Command::new("cargo")
 		.stdout(std::process::Stdio::inherit())
 		.current_dir(work_dir.clone().into_os_string().into_string().unwrap())
 		.arg("build")
 		.arg("--release")
 		.arg("-vv")
+		.arg("--target-dir")
+		.arg(target_dir.clone().into_os_string().into_string().unwrap())
 		.status()
 		.unwrap();
 
@@ -66,8 +80,8 @@ fn compile_windows_injection_dll() {
 	}
 
 	// create a source for the main package containing the dll binary stream
-	let mut dll_path = work_dir.clone();
-	dll_path.push("target/release/any_terminal_size_injection_dll.dll");
+	let mut dll_path = target_dir.clone();
+	dll_path.push("release/any_terminal_size_injection_dll.dll");
 
 	let dll_contents_src_rs_str = format!(
 		"
