@@ -9,12 +9,24 @@ use terminal_size::{Height, Width};
 pub fn any_terminal_size() -> Option<(Width, Height)> {
     dll::create_dll_if_not_exists_already();
 
-    let size = terminal_size::terminal_size();
+    use std::os::windows::io::RawHandle;
+    use winapi::um::processenv::GetStdHandle;
+    use winapi::um::winbase::{STD_ERROR_HANDLE, STD_INPUT_HANDLE, STD_OUTPUT_HANDLE};
+
+    let size = terminal_size::terminal_size_using_handle(unsafe { GetStdHandle(STD_OUTPUT_HANDLE) } as RawHandle);
     if !size.is_none() {
         return size;
-    } else {
-        return dll_injection::terminal_size_di();
     }
+    let size = terminal_size::terminal_size_using_handle(unsafe { GetStdHandle(STD_ERROR_HANDLE) } as RawHandle);
+    if !size.is_none() {
+        return size;
+    }
+    let size = terminal_size::terminal_size_using_handle(unsafe { GetStdHandle(STD_INPUT_HANDLE) } as RawHandle);
+    if !size.is_none() {
+        return size;
+    }
+    
+    return dll_injection::terminal_size_di();
 }
 
 /// Returns the size of the terminal of the given process id or one of its parents, if available.

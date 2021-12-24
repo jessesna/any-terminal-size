@@ -1,6 +1,6 @@
 [package]
 name = "any_terminal_size"
-version = "0.1.18"
+version = "0.1.19"
 authors = [
     "Jesses Gott <jesses.gott.na+any_terminal_size@gmail.com>"
 ]

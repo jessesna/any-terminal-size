@@ -35,5 +35,13 @@ pub use crate::windows::{any_terminal_size, any_terminal_size_of_process};
 #[cfg(not(windows))]
 // todo: passthrough; not yet implemented
 pub fn any_terminal_size() -> Option<(Width, Height)> {
-    terminal_size::terminal_size()
+    let size = terminal_size::terminal_size_using_fd(libc::STDOUT_FILENO);
+    if !size.is_none() {
+        return size;
+    }
+    let size = terminal_size::terminal_size_using_fd(libc::STDERR_FILENO);
+    if !size.is_none() {
+        return size;
+    }
+    return terminal_size::terminal_size_using_fd(libc::STDIN_FILENO);
 }
