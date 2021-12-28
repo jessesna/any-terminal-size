@@ -2,7 +2,7 @@
 //!
 //! If the process doesn't have a terminal, all parent processes are searched for one.
 //!
-//! The Linux version is just a passtrough to the terminal_size crate which returns
+//! The Linux version is just a passthrough to the terminal_size crate which returns
 //! the size of the terminal of the current process.
 //!
 //!  This crate requires a minimum rust version of 1.31.0 (2018-12-06)
