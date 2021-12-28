@@ -37,11 +37,19 @@
 <span id="37">37</span>
 <span id="38">38</span>
 <span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A simple utility for getting the size of a console of any process or on windows.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! If the process doesn&#39;t have a terminal, all parent processes are searched for one.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The Linux version is just a passtrough to the terminal_size crate which returns</span>
+<span class="doccomment">//! The Linux version is just a passthrough to the terminal_size crate which returns</span>
 <span class="doccomment">//! the size of the terminal of the current process.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!  This crate requires a minimum rust version of 1.31.0 (2018-12-06)</span>
@@ -74,7 +82,15 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
 <span class="comment">// todo: passthrough; not yet implemented</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">any_terminal_size</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Width</span>, <span class="ident">Height</span>)<span class="op">&gt;</span> {
-    <span class="ident">terminal_size::terminal_size</span>()
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size_using_fd</span>(<span class="ident">libc::STDOUT_FILENO</span>);
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">size</span>.<span class="ident">is_none</span>() {
+        <span class="kw">return</span> <span class="ident">size</span>;
+    }
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size_using_fd</span>(<span class="ident">libc::STDERR_FILENO</span>);
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">size</span>.<span class="ident">is_none</span>() {
+        <span class="kw">return</span> <span class="ident">size</span>;
+    }
+    <span class="kw">return</span> <span class="ident">terminal_size::terminal_size_using_fd</span>(<span class="ident">libc::STDIN_FILENO</span>);
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="any_terminal_size" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>

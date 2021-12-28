@@ -24,6 +24,18 @@
 <span id="24">24</span>
 <span id="25">25</span>
 <span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dll</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dll_injection</span>;
 
@@ -35,12 +47,24 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">any_terminal_size</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Width</span>, <span class="ident">Height</span>)<span class="op">&gt;</span> {
     <span class="ident">dll::create_dll_if_not_exists_already</span>();
 
-    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size</span>();
+    <span class="kw">use</span> <span class="ident">std::os::windows::io::RawHandle</span>;
+    <span class="kw">use</span> <span class="ident">winapi::um::processenv::GetStdHandle</span>;
+    <span class="kw">use</span> <span class="ident">winapi::um::winbase</span>::{<span class="ident">STD_ERROR_HANDLE</span>, <span class="ident">STD_INPUT_HANDLE</span>, <span class="ident">STD_OUTPUT_HANDLE</span>};
+
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size_using_handle</span>(<span class="kw">unsafe</span> { <span class="ident">GetStdHandle</span>(<span class="ident">STD_OUTPUT_HANDLE</span>) } <span class="kw">as</span> <span class="ident">RawHandle</span>);
     <span class="kw">if</span> <span class="op">!</span><span class="ident">size</span>.<span class="ident">is_none</span>() {
         <span class="kw">return</span> <span class="ident">size</span>;
-    } <span class="kw">else</span> {
-        <span class="kw">return</span> <span class="ident">dll_injection::terminal_size_di</span>();
     }
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size_using_handle</span>(<span class="kw">unsafe</span> { <span class="ident">GetStdHandle</span>(<span class="ident">STD_ERROR_HANDLE</span>) } <span class="kw">as</span> <span class="ident">RawHandle</span>);
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">size</span>.<span class="ident">is_none</span>() {
+        <span class="kw">return</span> <span class="ident">size</span>;
+    }
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">terminal_size::terminal_size_using_handle</span>(<span class="kw">unsafe</span> { <span class="ident">GetStdHandle</span>(<span class="ident">STD_INPUT_HANDLE</span>) } <span class="kw">as</span> <span class="ident">RawHandle</span>);
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">size</span>.<span class="ident">is_none</span>() {
+        <span class="kw">return</span> <span class="ident">size</span>;
+    }
+    
+    <span class="kw">return</span> <span class="ident">dll_injection::terminal_size_di</span>();
 }
 
 <span class="doccomment">/// Returns the size of the terminal of the given process id or one of its parents, if available.</span>
