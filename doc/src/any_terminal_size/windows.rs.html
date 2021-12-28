@@ -36,12 +36,15 @@
 <span id="36">36</span>
 <span id="37">37</span>
 <span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dll</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dll_injection</span>;
 
 <span class="kw">use</span> <span class="ident">terminal_size</span>::{<span class="ident">Height</span>, <span class="ident">Width</span>};
 
 <span class="doccomment">/// Returns the size of the terminal of the current process or one of its parents, if available.</span>
+<span class="doccomment">/// Iostreams are queried in stdout, stderr and stdin order.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Return `None` on Error.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">any_terminal_size</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Width</span>, <span class="ident">Height</span>)<span class="op">&gt;</span> {
@@ -68,6 +71,7 @@
 }
 
 <span class="doccomment">/// Returns the size of the terminal of the given process id or one of its parents, if available.</span>
+<span class="doccomment">/// Iostreams are queried in stdout, stderr and stdin order.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Return `None` on Error.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">any_terminal_size_of_process</span>(<span class="ident">process_id</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Width</span>, <span class="ident">Height</span>)<span class="op">&gt;</span> {
