@@ -4,8 +4,6 @@
 
 Rust library to getting the size of a terminal of another process.
 
-Works on Windows with a fallback to terminal_size on all other OS.
-
 ```rust
 use any_terminal_size::{any_terminal_size, Height, Width};
 

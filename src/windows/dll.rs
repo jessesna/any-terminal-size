@@ -1,7 +1,7 @@
 //! Doesn't seem like there's a cargo way of packaging cdylibs.
 //! So instead we put a binary representation in the static lib and create it ad hoc on first use.
 //! Unfortunately, there's no way to uninstall the dll's with cargo uninstall directly.
-//! Sorry for all this. As soon as there's a built in way it'll be changed.
+//! TODO: Sorry for all this. As soon as there's a built in way it'll be changed.
 
 pub mod dll_contents;
 

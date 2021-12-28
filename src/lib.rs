@@ -2,8 +2,9 @@
 //!
 //! If the process doesn't have a terminal, all parent processes are searched for one.
 //!
-//! The Linux version is just a passthrough to the terminal_size crate which returns
-//! the size of the terminal of the current process.
+//! The windows version has to make use of dll injection because there is no api which
+//!   allows to query console infos of foreign processes.
+//! The unix version should be considered experimental.
 //!
 //!  This crate requires a minimum rust version of 1.31.0 (2018-12-06)
 //!
@@ -33,15 +34,6 @@ pub use crate::windows::dll::{
 pub use crate::windows::{any_terminal_size, any_terminal_size_of_process};
 
 #[cfg(not(windows))]
-// todo: passthrough; not yet implemented
-pub fn any_terminal_size() -> Option<(Width, Height)> {
-    let size = terminal_size::terminal_size_using_fd(libc::STDOUT_FILENO);
-    if !size.is_none() {
-        return size;
-    }
-    let size = terminal_size::terminal_size_using_fd(libc::STDERR_FILENO);
-    if !size.is_none() {
-        return size;
-    }
-    return terminal_size::terminal_size_using_fd(libc::STDIN_FILENO);
-}
+mod unix;
+#[cfg(not(windows))]
+pub use crate::unix::{any_terminal_size, any_terminal_size_of_process};
