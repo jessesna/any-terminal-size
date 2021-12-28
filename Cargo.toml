@@ -1,6 +1,6 @@
 [package]
 name = "any_terminal_size"
-version = "0.1.19"
+version = "0.1.20"
 authors = [
     "Jesses Gott <jesses.gott.na+any_terminal_size@gmail.com>"
 ]
@@ -21,6 +21,7 @@ include = [
 ]
 
 [target.'cfg(not(windows))'.dependencies]
+libc = "0.2"
 terminal_size = "0.1.17"
 
 [target.'cfg(windows)'.dependencies]
